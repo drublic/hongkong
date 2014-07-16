@@ -2,7 +2,7 @@
 
 ## Install via Bower
 
-	bower i --save parallax-scroll
+	bower i --save hongkong
 
 ## Usage
 
@@ -11,7 +11,7 @@ and a requestAnimationFrame polyfill.
 
 	<script src="bower_components/jquery/dist/jquery.js"></script>
 	<script src="bower_components/raf.js/raf.js"></script>
-	<script src="bower_components/parallax-scroll/parallax-scroll.js"></script>
+	<script src="bower_components/hongkong/hongkong.js"></script>
 
 Just add an attribute `data-parallax-top` or `data-parallax-bottom` to the
 element you want to be animated in the named direction.
