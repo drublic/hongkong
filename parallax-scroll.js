@@ -23,14 +23,14 @@
 			$element = $($scrollTop[i]);
 			factor = $element.attr('data-parallax-factor') || 4;
 
-			$element.css('transform', 'translateY(' + ((scroll - $element.parent().offset().top) / factor) + 'px)');
+			$element.css('transform', 'translateY(' + (scroll / factor) + 'px)');
 		}
 
 		for (i = 0; i < $scrollBottom.length; i++) {
 			$element = $($scrollBottom[i]);
 			factor = $element.attr('data-parallax-factor') || 4;
 
-			$element.css('transform', 'translateY(' + ((scroll - $element.parent().offset().top) / (factor * -1)) + 'px)');
+			$element.css('transform', 'translateY(' + (scroll / (factor * -1)) + 'px)');
 		}
 
 		window.cancelAnimationFrame(_callback);

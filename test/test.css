@@ -1,0 +1,77 @@
+/**
+ * Styles for testing parallax scrolling
+ */
+html,
+body {
+    height: 100%;
+    font-size: 18px;
+    text-shadow: 0 0 5px #000;
+}
+
+h1,
+h2 {
+    position: relative;
+    display: inline-block;
+    text-transform: uppercase;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 4rem;
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+h1:after {
+    content: '';
+    position: absolute;
+    left: -1em;
+    right: -1em;
+    bottom: -0.2em;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+p {
+    margin: 0.5em 0;
+}
+
+a,
+a:visited {
+    color: #fff;
+}
+
+.unit {
+    display: table;
+    width: 100%;
+    position: relative;
+    height: 60%;
+    text-align: center;
+    color: #fff;
+}
+
+.unit__inner {
+    display: table-cell;
+    vertical-align: middle;
+    position: relative;
+    z-index: 1;
+    margin: 0 auto;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.background img {
+    max-width: 100%;
+}
+
+.info strong {
+    padding: 0 0.5em;
+}
