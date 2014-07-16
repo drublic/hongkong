@@ -14,14 +14,14 @@
   "ignore": [
     "**/.*",
     "bower_components",
-    "README.md"
+    "README.md",
     "test"
   ],
   "dependencies": {
     "raf.js": "0.0.4",
-    "jquery": "~2.1.1"
+    "jquery": "*"
   },
   "devDependencies": {
-    "normalize.css": "~3.0.1"
+    "normalize.css": "3.0.1"
   }
 }
