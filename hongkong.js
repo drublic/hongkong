@@ -2,41 +2,41 @@
  * Parallax scrolling
  */
 (function ($) {
-	var $scrollTop = $('[data-parallax-top]');
-	var $scrollBottom = $('[data-parallax-bottom]');
-	var $element;
-	var factor;
+    var $scrollTop = $('[data-parallax-top]');
+    var $scrollBottom = $('[data-parallax-bottom]');
+    var $element;
+    var factor;
 
-	var scrollPosition = 0;
+    var scrollPosition = 0;
 
-	var _callback = function () {
-		var scroll = window.pageYOffset;
-		var i;
+    var _callback = function () {
+        var scroll = window.pageYOffset;
+        var i;
 
-		if (scrollPosition === scroll) {
-			window.cancelAnimationFrame(_callback);
+        if (scrollPosition === scroll) {
+            window.cancelAnimationFrame(_callback);
 
-			return false;
-		}
+            return false;
+        }
 
-		for (i = 0; i < $scrollTop.length; i++) {
-			$element = $($scrollTop[i]);
-			factor = $element.attr('data-parallax-factor') || 4;
+        for (i = 0; i < $scrollTop.length; i++) {
+            $element = $($scrollTop[i]);
+            factor = $element.attr('data-parallax-factor') || 4;
 
-			$element.css('transform', 'translateY(' + (scroll / factor) + 'px)');
-		}
+            $element.css('transform', 'translateY(' + (scroll / factor) + 'px)');
+        }
 
-		for (i = 0; i < $scrollBottom.length; i++) {
-			$element = $($scrollBottom[i]);
-			factor = $element.attr('data-parallax-factor') || 4;
+        for (i = 0; i < $scrollBottom.length; i++) {
+            $element = $($scrollBottom[i]);
+            factor = $element.attr('data-parallax-factor') || 4;
 
-			$element.css('transform', 'translateY(' + (scroll / (factor * -1)) + 'px)');
-		}
+            $element.css('transform', 'translateY(' + (scroll / (factor * -1)) + 'px)');
+        }
 
-		window.cancelAnimationFrame(_callback);
-	};
+        window.cancelAnimationFrame(_callback);
+    };
 
-	$(window).on('scroll', function () {
-		window.requestAnimationFrame(_callback);
-	});
+    $(window).on('scroll', function () {
+        window.requestAnimationFrame(_callback);
+    });
 }(jQuery));
