@@ -24,7 +24,7 @@
         for (; j < $scrollBottom.length; j++) {
             factor = $scrollBottom[j].getAttribute('data-parallax-factor') || 4;
 
-            $scrollTop[j].factor = factor;
+            $scrollBottom[j].factor = factor;
         }
     };
 
@@ -80,8 +80,8 @@
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
-            factor = $scrollTop[i].factor;
-            $scrollTop.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px)');
+            factor = $scrollBottom[i].factor;
+            $scrollBottom.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px)');
         }
 
         window.cancelAnimationFrame(_callback);
