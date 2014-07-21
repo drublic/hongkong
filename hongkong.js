@@ -28,38 +28,9 @@
         }
     };
 
-    /**
-     * Throttle scrolling
-     * @param  {function} func
-     * @param  {integer}  wait
-     * @param  {boolean}  immediate
-     * @return {function}
-     */
-    var _throttle = function (func, wait, immediate) {
-        var timeout;
-
-        return function () {
-            var later = function () {
-                timeout = null;
-
-                if (!immediate) {
-                    func.apply(this, arguments);
-                }
-            };
-
-            var callNow = immediate && !timeout;
-
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-
-            if (callNow) {
-                func.apply(this, arguments);
-            }
-        };
-    };
 
     /**
-     * Callback for throttle function
+     * Callback for rAF
      * @return {void}
      */
     var _callback = function () {
@@ -68,8 +39,8 @@
         var factor;
 
         if (scrollPosition === scroll) {
-            window.cancelAnimationFrame(_callback);
             $scrollTop.css('transform', 'translateY(0)');
+            window.requestAnimationFrame(_callback);
 
             return false;
         }
@@ -84,15 +55,15 @@
             $scrollBottom.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px)');
         }
 
-        window.cancelAnimationFrame(_callback);
+        window.requestAnimationFrame(_callback);
     };
 
     /**
      * Init
      */
-     _generateFactor();
+    if ($scrollTop.length || $scrollBottom.length) {
+        _generateFactor();
+        window.requestAnimationFrame(_callback);
+    }
 
-    $(window).on('scroll', function () {
-        _throttle(window.requestAnimationFrame(_callback), 100, false);
-    });
 }(jQuery));
