@@ -69,6 +69,7 @@
 
         if (scrollPosition === scroll) {
             window.cancelAnimationFrame(_callback);
+            $scrollTop.css('transform', 'translateY(0)');
 
             return false;
         }
