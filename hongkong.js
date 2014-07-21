@@ -39,7 +39,7 @@
         var factor;
 
         if (scrollPosition === scroll) {
-            $scrollTop.css('transform', 'translateY(0)');
+            $scrollTop.css('transform', 'translateY(0) translateZ(0)');
             window.requestAnimationFrame(_callback);
 
             return false;
@@ -47,12 +47,12 @@
 
         for (i = 0; i < $scrollTop.length; i++) {
             factor = $scrollTop[i].factor;
-            $scrollTop.eq(i).css('transform', 'translateY(' + parseInt(scroll / factor, 10) + 'px)');
+            $scrollTop.eq(i).css('transform', 'translateY(' + parseInt(scroll / factor, 10) + 'px) translateZ(0)');
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
             factor = $scrollBottom[i].factor;
-            $scrollBottom.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px)');
+            $scrollBottom.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px) translateZ(0)');
         }
 
         window.requestAnimationFrame(_callback);
