@@ -4,7 +4,6 @@
 (function ($) {
     var $scrollTop = $('[data-parallax-top]');
     var $scrollBottom = $('[data-parallax-bottom]');
-    var factor;
     var scrollPosition = 0;
 
     /**
@@ -12,19 +11,14 @@
      * @return {[type]} [description]
      */
     var _generateFactor = function () {
-        var i = 0;
-        var j = 0;
+        var i;
 
-        for (; i < $scrollTop.length; i++) {
-            factor = $scrollTop[i].getAttribute('data-parallax-factor') || 4;
-
-            $scrollTop[i].factor = factor;
+        for (i = 0; i < $scrollTop.length; i++) {
+            $scrollTop[i].factor = parseInt($scrollTop[i].getAttribute('data-parallax-factor') || 4, 10);
         }
 
-        for (; j < $scrollBottom.length; j++) {
-            factor = $scrollBottom[j].getAttribute('data-parallax-factor') || 4;
-
-            $scrollBottom[j].factor = factor;
+        for (i = 0; i < $scrollBottom.length; i++) {
+            $scrollBottom[i].factor = parseInt($scrollBottom[i].getAttribute('data-parallax-factor') || 4, 10);
         }
     };
 
