@@ -30,23 +30,26 @@
     var _callback = function () {
         var scroll = window.pageYOffset;
         var i;
-        var factor;
 
+        /**
+         * Eject if update isn't needed
+         */
         if (scrollPosition === scroll) {
-            $scrollTop.css('transform', 'translateY(0) translateZ(0)');
+            for (i = 0; i < $scrollTop.length; i++) {
+                $scrollTop[i].style.transform = 'translateY(0) translateZ(0)';
+            }
+
             window.requestAnimationFrame(_callback);
 
             return false;
         }
 
         for (i = 0; i < $scrollTop.length; i++) {
-            factor = $scrollTop[i].factor;
-            $scrollTop.eq(i).css('transform', 'translateY(' + Math.floor(scroll / factor) + 'px) translateZ(0)');
+            $scrollTop[i].style.transform = 'translateY(' + Math.floor(scroll / $scrollTop[i].factor) + 'px) translateZ(0)';
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
-            factor = $scrollBottom[i].factor;
-            $scrollBottom.eq(i).css('transform', 'translateY(' + Math.floor(scroll / (factor * -1)) + 'px) translateZ(0)');
+            $scrollBottom[i].style.transform = 'translateY(' + Math.floor(scroll / ($scrollBottom[i].factor * -1)) + 'px) translateZ(0)';
         }
 
         window.requestAnimationFrame(_callback);
