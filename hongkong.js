@@ -41,12 +41,12 @@
 
         for (i = 0; i < $scrollTop.length; i++) {
             factor = $scrollTop[i].factor;
-            $scrollTop.eq(i).css('transform', 'translateY(' + parseInt(scroll / factor, 10) + 'px) translateZ(0)');
+            $scrollTop.eq(i).css('transform', 'translateY(' + Math.floor(scroll / factor) + 'px) translateZ(0)');
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
             factor = $scrollBottom[i].factor;
-            $scrollBottom.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px) translateZ(0)');
+            $scrollBottom.eq(i).css('transform', 'translateY(' + Math.floor(scroll / (factor * -1)) + 'px) translateZ(0)');
         }
 
         window.requestAnimationFrame(_callback);
