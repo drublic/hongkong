@@ -4,7 +4,6 @@
 (function ($) {
     var $scrollTop = $('[data-parallax-top]');
     var $scrollBottom = $('[data-parallax-bottom]');
-    var factor;
     var scrollPosition = 0;
 
     /**
@@ -12,86 +11,56 @@
      * @return {[type]} [description]
      */
     var _generateFactor = function () {
-        var i = 0;
-        var j = 0;
+        var i;
 
-        for (; i < $scrollTop.length; i++) {
-            factor = $scrollTop[i].getAttribute('data-parallax-factor') || 4;
-
-            $scrollTop[i].factor = factor;
+        for (i = 0; i < $scrollTop.length; i++) {
+            $scrollTop[i].factor = parseInt($scrollTop[i].getAttribute('data-parallax-factor') || 4, 10);
         }
 
-        for (; j < $scrollBottom.length; j++) {
-            factor = $scrollBottom[j].getAttribute('data-parallax-factor') || 4;
-
-            $scrollTop[j].factor = factor;
+        for (i = 0; i < $scrollBottom.length; i++) {
+            $scrollBottom[i].factor = parseInt($scrollBottom[i].getAttribute('data-parallax-factor') || 4, 10);
         }
     };
 
-    /**
-     * Throttle scrolling
-     * @param  {function} func
-     * @param  {integer}  wait
-     * @param  {boolean}  immediate
-     * @return {function}
-     */
-    var _throttle = function (func, wait, immediate) {
-        var timeout;
-
-        return function () {
-            var later = function () {
-                timeout = null;
-
-                if (!immediate) {
-                    func.apply(this, arguments);
-                }
-            };
-
-            var callNow = immediate && !timeout;
-
-            clearTimeout(timeout);
-            timeout = setTimeout(later, wait);
-
-            if (callNow) {
-                func.apply(this, arguments);
-            }
-        };
-    };
 
     /**
-     * Callback for throttle function
+     * Callback for rAF
      * @return {void}
      */
     var _callback = function () {
         var scroll = window.pageYOffset;
         var i;
-        var factor;
 
+        /**
+         * Eject if update isn't needed
+         */
         if (scrollPosition === scroll) {
-            window.cancelAnimationFrame(_callback);
+            for (i = 0; i < $scrollTop.length; i++) {
+                $scrollTop[i].style.transform = 'translateY(0) translateZ(0)';
+            }
+
+            window.requestAnimationFrame(_callback);
 
             return false;
         }
 
         for (i = 0; i < $scrollTop.length; i++) {
-            factor = $scrollTop[i].factor;
-            $scrollTop.eq(i).css('transform', 'translateY(' + parseInt(scroll / factor, 10) + 'px)');
+            $scrollTop[i].style.transform = 'translateY(' + Math.floor(scroll / $scrollTop[i].factor) + 'px) translateZ(0)';
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
-            factor = $scrollTop[i].factor;
-            $scrollTop.eq(i).css('transform', 'translateY(' + parseInt(scroll / (factor * -1), 10) + 'px)');
+            $scrollBottom[i].style.transform = 'translateY(' + Math.floor(scroll / ($scrollBottom[i].factor * -1)) + 'px) translateZ(0)';
         }
 
-        window.cancelAnimationFrame(_callback);
+        window.requestAnimationFrame(_callback);
     };
 
     /**
      * Init
      */
-     _generateFactor();
+    if ($scrollTop.length || $scrollBottom.length) {
+        _generateFactor();
+        window.requestAnimationFrame(_callback);
+    }
 
-    $(window).on('scroll', function () {
-        _throttle(window.requestAnimationFrame(_callback), 100, false);
-    });
 }(jQuery));

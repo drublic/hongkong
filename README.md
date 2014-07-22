@@ -6,8 +6,8 @@
 
 ## Usage
 
-Please add `parallax-scroll.js`. Make sure to include the dependency jQuery
-and a requestAnimationFrame polyfill.
+Please add `hongkong.js` right before the closing body tag. Make sure to include
+the dependency jQuery and a requestAnimationFrame polyfill.
 
 	<script src="bower_components/jquery/dist/jquery.js"></script>
 	<script src="bower_components/raf.js/raf.js"></script>
