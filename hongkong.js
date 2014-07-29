@@ -56,6 +56,11 @@
     };
 
     /**
+     * Events
+     */
+    $(document).on('hongkong:refresh', _callback);
+
+    /**
      * Init
      */
     if ($scrollTop.length || $scrollBottom.length) {
