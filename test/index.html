@@ -3,14 +3,19 @@
     <head>
         <meta charset="utf-8">
         <title>Parallax Scrolling Plugin</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <link rel="stylesheet" href="../bower_components/normalize.css/normalize.css">
+        <link rel="stylesheet" href="../hongkong.css">
         <link rel="stylesheet" href="test.css">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
     </head>
     <body>
 
         <div class="hero unit">
-            <div class="unit__inner" data-parallax-top data-parallax-factor="3">
+            <div class="unit__inner" data-parallax-bottom data-parallax-factor="3">
                 <h1>Hong Kong</h1>
                 <p>Pictures by <a href="http://cfremdt.de/">Christoph Fremdt</a></p>
             </div>
@@ -20,8 +25,37 @@
             </div>
         </div>
 
+        <div class="wrap">
+            <div class="wrap__inner">
+                <p class="subheadline">A Parallax Scrolling Plugin</p>
+                <h2>Hong Kong</h2>
+
+                <h3>How to use</h3>
+                <p>Please refer to the README file on GitHub to get the latest info on how to use this plugin.</p>
+
+                <p>The easiest way to install Hongkong is with Bower.</p>
+
+                <pre><a href="http://bower.io/">bower</a> install --save hongkong</pre>
+                <pre><a href="https://www.npmjs.org/">npm</a> install --save hongkong</pre>
+
+                <p>The scripts needed: jQuery, a requestAnimationFrame polyfill and Hong Kong itself. Let’s say you installed Hong Kong with Bower:</p>
+
+                <pre>&lt;script src="bower_components/jquery/dist/jquery.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/raf.js/raf.js"&gt;&lt;/script&gt;
+&lt;script src="bower_components/hongkong/hongkong.js"&gt;&lt;/script&gt;</pre>
+
+                <p>Just add an attribute <code>data-parallax-top</code> or <code>data-parallax-bottom</code> to the element you want to be animated in the named direction.</p>
+
+                <p>You can add a <code>data-parallax-factor</code> with a value which is an integer to change the factor of which the element should move. Default is 4.</p>
+
+                <h3>Examples</h3>
+
+                <p>This project is on GitHub. Go fork it.</p>
+            </div>
+        </div>
+
         <div class="unit chris">
-            <p><a href="#chris" class="button">Chris' Equipment</a></p>
+            <p><a href="#chris" class="button">Testing Toggle</a></p>
 
             <span class="toggle__anchor" id="chris"></span>
             <div class="toggle" id="chris">
@@ -35,7 +69,7 @@
         </div>
 
         <div class="info unit">
-            <div class="unit__inner" data-parallax-top data-parallax-factor="2">
+            <div class="unit__inner" data-parallax-top>
                 <h2>Info</h2>
 
                 <p><strong>Area</strong> 1,104 km<sup>2</sup> (Water 4.58%)</p>
@@ -49,6 +83,15 @@
                 <img src="img/hongkong-2.jpg">
             </div>
         </div>
+
+        <footer class="wrap">
+            <div class="wrap__inner">
+                <p>Author: <a href="https://drublic.de/">Hans Christian Reinl</a> &bull;
+                <a href="https://github.com/drublic/hongkong/issues/new">Report Issue</a> &bull;
+                License: <a href="https://github.com/drublic/hongkong/blob/master/LICENSE">MIT</a> &bull;
+                <a href="https://github.com/drublic/hongkong/graphs/contributors">Contributors</a></p>
+            </div>
+        </footer>
 
         <script src="../bower_components/jquery/dist/jquery.js"></script>
         <script src="../bower_components/raf.js/raf.js"></script>

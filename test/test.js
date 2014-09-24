@@ -11,5 +11,7 @@
         } else {
             window.location.hash = hash;
         }
+
+        $(document).trigger('hongkong:refresh');
     });
 }(jQuery));
