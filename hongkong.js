@@ -2,11 +2,16 @@
  * Parallax scrolling
  */
 (function ($) {
+
+    // Setting for the plugin
+    var settings = {};
+
+    // Get elements
+    var $scrollTop;
+    var $scrollBottom;
+
     var scrollPosition = 0;
     var ticking = false;
-
-    var $scrollTop = $('[data-parallax-top]');
-    var $scrollBottom = $('[data-parallax-bottom]');
 
     /**
      * Get the factor attribute for each
@@ -16,11 +21,11 @@
         var i;
 
         for (i = 0; i < $scrollTop.length; i++) {
-            $scrollTop[i].factor = parseFloat($scrollTop[i].getAttribute('data-parallax-factor') || 4, 10);
+            $scrollTop[i].factor = parseFloat($scrollTop[i].getAttribute('data-parallax-factor') || settings.factor, 10);
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
-            $scrollBottom[i].factor = parseFloat($scrollBottom[i].getAttribute('data-parallax-factor') || 4, 10);
+            $scrollBottom[i].factor = parseFloat($scrollBottom[i].getAttribute('data-parallax-factor') || settings.factor, 10);
         }
     };
 
@@ -83,22 +88,42 @@
     $(document).on('hongkong:refresh', _callback);
 
     /**
-     * Init
+     * Init as jQuery plugin
      */
-    if ($scrollTop.length || $scrollBottom.length) {
-        _generateFactor();
+    $.hongkong = function (options) {
 
+        // Options
+        settings = $.extend({
+            factor: 4,
+            mobile: false,
+            mediaQuery: '(max-width: 42em)',
+            selectorBottom: '[data-parallax-bottom]',
+            selectorTop: '[data-parallax-top]'
+        }, options);
 
-        // only listen for scroll events
-        $(window).on('scroll', function () {
-            scrollPosition = Math.max($('body').scrollTop(), $('html').scrollTop());
+        // Set elements
+        $scrollTop = $(settings.selectorTop);
+        $scrollBottom = $(settings.selectorBottom);
 
-            if (!ticking) {
-                window.requestAnimationFrame(_callback);
+        if ($scrollTop.length || $scrollBottom.length) {
+            _generateFactor();
 
-                ticking = true;
-            }
-        });
-    }
+            // only listen for scroll events
+            $(window).on('scroll', function () {
+                scrollPosition = Math.max($('body').scrollTop(), $('html').scrollTop());
+
+                if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
+                    return false;
+                }
+
+                if (!ticking) {
+                    window.requestAnimationFrame(_callback);
+
+                    ticking = true;
+                }
+            });
+        }
+
+    };
 
 }(jQuery));

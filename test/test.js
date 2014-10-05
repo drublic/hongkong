@@ -1,6 +1,8 @@
 (function ($) {
     'use strict';
 
+    $.hongkong();
+
     $(document).on('click', '.button', function (event) {
         event.preventDefault();
 
