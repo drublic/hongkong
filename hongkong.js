@@ -22,10 +22,12 @@
 
         for (i = 0; i < $scrollTop.length; i++) {
             $scrollTop[i].factor = parseFloat($scrollTop[i].getAttribute('data-parallax-factor') || settings.factor, 10);
+            $scrollTop[i].initialOffset = $scrollTop[i].getBoundingClientRect().top;
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
             $scrollBottom[i].factor = parseFloat($scrollBottom[i].getAttribute('data-parallax-factor') || settings.factor, 10);
+            $scrollBottom[i].initialOffset = $scrollBottom[i].getBoundingClientRect().top;
         }
     };
 
@@ -46,6 +48,7 @@
         var visible;
         var i;
         var rectObject = 0;
+        var offset;
 
         // Don't do anything if we've scrolled to the top
         if (scrollPosition <= 0) {
@@ -64,7 +67,8 @@
             $scrollTop[i].style.visibility = visible ? 'visible' : 'hidden';
 
             if (visible) {
-                $($scrollTop[i]).css({ transform: 'translateY(' + Math.floor(rectObject.top / $scrollTop[i].factor) + 'px) translateZ(0)' });
+                offset = rectObject.top - $scrollBottom[i].initialOffset;
+                $($scrollTop[i]).css({ transform: 'translateY(' + Math.floor(offset / $scrollTop[i].factor) + 'px) translateZ(0)' });
             }
         }
 
@@ -73,9 +77,9 @@
             visible = _isElementInViewport($($scrollBottom[i]).parent());
 
             $scrollBottom[i].style.visibility = visible ? 'visible' : 'hidden';
-
             if (visible) {
-                $($scrollBottom[i]).css({ transform: 'translateY(' + Math.floor(rectObject.top / ($scrollBottom[i].factor * -1)) + 'px) translateZ(0)' });
+                offset = rectObject.top - $scrollBottom[i].initialOffset;
+                $($scrollBottom[i]).css({ transform: 'translateY(' + Math.floor(offset / ($scrollBottom[i].factor * -1)) + 'px) translateZ(0)' });
             }
         }
 
