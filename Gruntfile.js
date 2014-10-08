@@ -44,7 +44,7 @@ module.exports = function (grunt) {
    * Testing
    */
   grunt.registerTask('test', [
-    'jasmine:unit'
+    'jasmine'
   ]);
 
   /**
@@ -52,7 +52,7 @@ module.exports = function (grunt) {
    */
   grunt.registerTask('travis', [
     'jshint',
-    'jasmine:unit'
+    'jasmine'
   ]);
 
 };

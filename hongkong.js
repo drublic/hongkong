@@ -3,6 +3,8 @@
  */
 (function ($) {
 
+    'use strict';
+
     // Setting for the plugin
     var settings = {};
 
