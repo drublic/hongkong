@@ -43,6 +43,7 @@
      * @return {void}
      */
     var _callback = function () {
+        var visible;
         var i;
         var rectObject = 0;
 
@@ -68,10 +69,10 @@
         }
 
         for (i = 0; i < $scrollBottom.length; i++) {
-            rectObject = $scrollTop[i].getBoundingClientRect();
-            visible = _isElementInViewport($($scrollTop[i]).parent());
+            rectObject = $scrollBottom[i].getBoundingClientRect();
+            visible = _isElementInViewport($($scrollBottom[i]).parent());
 
-            $scrollTop[i].style.visibility = visible ? 'visible' : 'hidden';
+            $scrollBottom[i].style.visibility = visible ? 'visible' : 'hidden';
 
             if (visible) {
                 $($scrollBottom[i]).css({ transform: 'translateY(' + Math.floor(rectObject.top / ($scrollBottom[i].factor * -1)) + 'px) translateZ(0)' });
