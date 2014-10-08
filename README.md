@@ -1,5 +1,9 @@
 # jQuery based plugin for parallax scrolling
 
+[![Build Status](https://secure.travis-ci.org/use-init/init.svg?branch=master)](http://travis-ci.org/drublic/hongkong)
+[![Dependency Status](https://david-dm.org/drublic/hongkong.svg)](https://david-dm.org/drublic/hongkong)
+[![devDependency Status](https://david-dm.org/drublic/hongkong/dev-status.svg)](https://david-dm.org/drublic/hongkong#info=devDependencies)
+
 ## Install via Bower
 
     bower i --save hongkong
