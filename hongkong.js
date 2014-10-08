@@ -67,7 +67,7 @@
             $scrollTop[i].style.visibility = visible ? 'visible' : 'hidden';
 
             if (visible) {
-                offset = rectObject.top - $scrollBottom[i].initialOffset;
+                offset = rectObject.top - $scrollTop[i].initialOffset;
                 $($scrollTop[i]).css({ transform: 'translateY(' + Math.floor(offset / $scrollTop[i].factor) + 'px) translateZ(0)' });
             }
         }
