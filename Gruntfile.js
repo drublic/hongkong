@@ -26,8 +26,8 @@ module.exports = function (grunt) {
     jasmine: {
       js: {
         src: [
-          'bower_components/jquery/dist/jquery.min.js',
-          'bower_components/raf.js/raf.min.js',
+          'node_modules/jquery/dist/jquery.min.js',
+          'node_modules/raf.js/raf.min.js',
           'hongkong.js'
         ],
         options: {

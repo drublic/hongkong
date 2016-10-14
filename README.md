@@ -4,9 +4,9 @@
 [![Dependency Status](https://david-dm.org/drublic/hongkong.svg)](https://david-dm.org/drublic/hongkong)
 [![devDependency Status](https://david-dm.org/drublic/hongkong/dev-status.svg)](https://david-dm.org/drublic/hongkong#info=devDependencies)
 
-## Install via Bower
+## Install via npm
 
-    bower i --save hongkong
+    npm i --save hongkong.js
 
 ## Usage
 
