@@ -6,7 +6,7 @@
 
 ## Install via npm
 
-    npm i --save hongkong.js
+    npm i --save hongkong
 
 ## Usage
 
