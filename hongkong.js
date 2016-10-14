@@ -10,6 +10,7 @@ let settings = {};
 let $scrollTop;
 let $scrollBottom;
 
+let windowHeight = 0;
 let scrollPosition = 0;
 let ticking = false;
 
@@ -48,7 +49,7 @@ let _isElementInViewport = ($element) => {
 
   return (
     (scrollPosition <= offsetTop + $element.height()) &&
-    ($(window).height() + scrollPosition >= offsetTop)
+    (windowHeight + scrollPosition >= offsetTop)
   );
 };
 
@@ -147,7 +148,11 @@ let update = () => {
 
     ticking = true;
   }
-}
+};
+
+let _setWindowHeight = () => {
+  windowHeight = $(window).height();
+};
 
 /**
  * Events
@@ -178,4 +183,8 @@ $.hongkong = function (options) {
     // listen for scroll events
     $(window).on('scroll', update);
   }
+
+  $(window).on('resize load', () => {
+    _setWindowHeight();
+  });
 };

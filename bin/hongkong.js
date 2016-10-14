@@ -58,6 +58,7 @@
 	var $scrollTop = void 0;
 	var $scrollBottom = void 0;
 
+	var windowHeight = 0;
 	var scrollPosition = 0;
 	var ticking = false;
 
@@ -94,7 +95,7 @@
 	var _isElementInViewport = function _isElementInViewport($element) {
 	  var offsetTop = $element.offset().top;
 
-	  return scrollPosition <= offsetTop + $element.height() && $(window).height() + scrollPosition >= offsetTop;
+	  return scrollPosition <= offsetTop + $element.height() && windowHeight + scrollPosition >= offsetTop;
 	};
 
 	var _getValuesFromTransform = function _getValuesFromTransform(matrix) {
@@ -190,6 +191,10 @@
 	  }
 	};
 
+	var _setWindowHeight = function _setWindowHeight() {
+	  windowHeight = $(window).height();
+	};
+
 	/**
 	 * Events
 	 */
@@ -219,6 +224,10 @@
 	    // listen for scroll events
 	    $(window).on('scroll', update);
 	  }
+
+	  $(window).on('resize load', function () {
+	    _setWindowHeight();
+	  });
 	};
 
 /***/ }
