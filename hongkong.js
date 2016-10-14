@@ -128,7 +128,7 @@ let _callback = () => {
   }
 
   for (let i = 0; i < $scrollBottom.length; i++) {
-    _animateElement($scrollTop[i], 'bottom');
+    _animateElement($scrollBottom[i], 'bottom');
   }
 
   // allow further rAFs to be called

@@ -169,7 +169,7 @@
 	  }
 
 	  for (var _i2 = 0; _i2 < $scrollBottom.length; _i2++) {
-	    _animateElement($scrollTop[_i2], 'bottom');
+	    _animateElement($scrollBottom[_i2], 'bottom');
 	  }
 
 	  // allow further rAFs to be called
