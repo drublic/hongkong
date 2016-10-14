@@ -187,3 +187,10 @@ code {
 .toggle__anchor:target + .toggle {
     display: block;
 }
+
+
+
+.test1 .hero .background {
+    position: absolute;
+    top: 100px;
+}
