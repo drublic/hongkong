@@ -3,11 +3,6 @@
  */
 let $ = window.jQuery;
 
-/**
- * Dependencies
- */
-import _throttle from 'lodash/throttle';
-
 // Setting for the plugin
 let settings = {};
 
@@ -19,20 +14,34 @@ let scrollPosition = 0;
 let ticking = false;
 
 /**
- * Get the factor attribute for each
+ * Get the factor attribute for each and initial transforms
  * @return {[type]} [description]
  */
-let _generateFactor = () => {
+let _setupElements = () => {
   for (let i = 0; i < $scrollTop.length; i++) {
-    $scrollTop[i].factor = parseFloat($scrollTop[i].getAttribute('data-parallax-factor') || settings.factor, 10);
-    $scrollTop[i].initialOffset = $scrollTop[i].getBoundingClientRect().top;
+    _setupElement($scrollTop[i]);
   }
 
   for (let i = 0; i < $scrollBottom.length; i++) {
-    $scrollBottom[i].factor = parseFloat($scrollBottom[i].getAttribute('data-parallax-factor') || settings.factor, 10);
-    $scrollBottom[i].initialOffset = $scrollBottom[i].getBoundingClientRect().top;
+    _setupElement($scrollBottom[i]);
   }
 };
+
+let _setupElement = (element) => {
+  let $element = $(element);
+  let factor = element.getAttribute('data-parallax-factor');
+  let transformValues;
+  let currentTransform = $element.css('transform');
+
+  element.factor = parseFloat(factor || settings.factor, 10);
+  element.initialOffset = element.getBoundingClientRect().top;
+
+  if (currentTransform !== 'none') {
+    transformValues = _getValuesFromTransform(currentTransform);
+  }
+
+  element.transforms = transformValues;
+}
 
 let _isElementInViewport = ($element) => {
   let offsetTop = $element.offset().top;
@@ -43,19 +52,71 @@ let _isElementInViewport = ($element) => {
   );
 };
 
+let _getValuesFromTransform = (matrix) => {
+  let values = matrix.split('(')[1];
+  values = values.split(')')[0];
+  values = values.split(',');
+
+  let a = values[0];
+  let b = values[1];
+  let angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+
+  return {
+    rotate: angle,
+    scale: [parseFloat(values[0], 10), parseFloat(values[3], 10)],
+    skew: [parseFloat(values[1], 10), parseFloat(values[2], 10)],
+    translate: [parseFloat(values[4], 10), parseFloat(values[5], 10)]
+  };
+};
+
+let _getFullTransform = (element, positionY) => {
+  let transform = `translateY(${positionY}px) translateZ(0) `;
+
+  if (!element.transforms) {
+    return transform;
+  }
+
+  transform += `
+    skew(${element.transforms.skew[0]}, ${element.transforms.skew[1]})
+    scale(${element.transforms.scale[0]}, ${element.transforms.scale[1]})
+    translate(${element.transforms.translate[0]}, ${element.transforms.translate[1]})
+  `;
+
+  return transform;
+};
+
+let _animateElement = (element, direction) => {
+  let $element = $(element);
+  let rectObject = element.getBoundingClientRect();
+  let visible = _isElementInViewport($element.parent());
+  let offset;
+  let factor = element.factor;
+
+  if (direction === 'bottom') {
+    factor *= -1;
+  }
+
+  element.style.visibility = visible ? 'visible' : 'hidden';
+
+  if (!visible) {
+    return;
+  }
+
+  offset = rectObject.top - element.initialOffset;
+
+  $element.css({
+    transform: _getFullTransform(element, Math.floor(offset / factor))
+  });
+}
+
 /**
  * Callback for rAF
  * @return {void}
  */
 let _callback = () => {
-  let visible;
-  let rectObject = 0;
-  let offset;
 
   // Don't do anything if we've scrolled to the top
   if (scrollPosition <= 0) {
-    $scrollTop.css('transform', 'translateY(0) translateZ(0)');
-    $scrollBottom.css('transform', 'translateY(0) translateZ(0)');
 
     ticking = false;
 
@@ -63,33 +124,18 @@ let _callback = () => {
   }
 
   for (let i = 0; i < $scrollTop.length; i++) {
-    rectObject = $scrollTop[i].getBoundingClientRect();
-    visible = _isElementInViewport($($scrollTop[i]).parent());
-
-    $scrollTop[i].style.visibility = visible ? 'visible' : 'hidden';
-
-    if (visible) {
-      offset = rectObject.top - $scrollTop[i].initialOffset;
-      $($scrollTop[i]).css('transform', 'translateY(' + Math.floor(offset / $scrollTop[i].factor) + 'px) translateZ(0)');
-    }
+    _animateElement($scrollTop[i], 'top');
   }
 
   for (let i = 0; i < $scrollBottom.length; i++) {
-    rectObject = $scrollBottom[i].getBoundingClientRect();
-    visible = _isElementInViewport($($scrollBottom[i]).parent());
-
-    $scrollBottom[i].style.visibility = visible ? 'visible' : 'hidden';
-    if (visible) {
-      offset = rectObject.top - $scrollBottom[i].initialOffset;
-      $($scrollBottom[i]).css('transform', 'translateY(' + Math.floor(offset / ($scrollBottom[i].factor * -1)) + 'px) translateZ(0)');
-    }
+    _animateElement($scrollTop[i], 'bottom');
   }
 
   // allow further rAFs to be called
   ticking = false;
 };
 
-let update =   () => {
+let update = () => {
   scrollPosition = Math.max($('body').scrollTop(), $('html').scrollTop());
 
   if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
@@ -127,10 +173,9 @@ $.hongkong = function (options) {
   $scrollBottom = $(settings.selectorBottom);
 
   if ($scrollTop.length || $scrollBottom.length) {
-    _generateFactor();
+    _setupElements();
 
-    // only listen for scroll events
-    $(window).on('scroll', _throttle(update));
+    // listen for scroll events
+    $(window).on('scroll', update);
   }
-
 };
