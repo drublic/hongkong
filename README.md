@@ -11,11 +11,10 @@
 ## Usage
 
 Please add `hongkong.js` right before the closing body tag. Make sure to include
-the dependency jQuery and a requestAnimationFrame polyfill.
+the dependency jQuery.
 
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/raf.js/raf.js"></script>
-    <script src="bower_components/hongkong/hongkong.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/hongkong/hongkong.js"></script>
 
 Just add an attribute `data-parallax-top` or `data-parallax-bottom` to the
 element you want to be animated in the named direction.
