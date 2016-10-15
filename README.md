@@ -36,3 +36,13 @@ You can pass options to HongKong to customize it a bit:
 * `mobile`: support parallax effect on mobile; default: `false`
 * `mediaQuery`: Media query to match against when disabling parallax on mobile; default: `(max-width: 42em)`
 * `selector`: Selector to use to detect elements that should be scrolled; default `[data-parallax]`
+
+## Development
+
+Run `npm i` inside this folder.
+Start a development server with `npm start`.
+
+## License
+
+The MIT [License](./LICENSE) (MIT)
+Copyright (c) 2014 Hans Christian Reinl
