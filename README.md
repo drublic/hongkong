@@ -10,14 +10,14 @@
 
 ## Usage
 
-Please add `hongkong.js` right before the closing body tag. Make sure to include
+Please add `bin/hongkong.js` to your website. Make sure to include
 the dependency jQuery.
 
     <script src="node_modules/jquery/dist/jquery.js"></script>
-    <script src="node_modules/hongkong/hongkong.js"></script>
+    <script src="node_modules/hongkong/bin/hongkong.js"></script>
 
-Just add an attribute `data-parallax-top` or `data-parallax-bottom` to the
-element you want to be animated in the named direction.
+Just add the attribute `data-parallax`. For directions of the "floating" element
+please use `data-parallax-top` or `data-parallax-bottom`.
 
 You can add a `data-parallax-factor` with a value which is an integer to change
 the factor of which the element should move. Default is 4.
@@ -35,5 +35,4 @@ You can pass options to HongKong to customize it a bit:
 * `factor`: default factor to use for momentum if no other is set via a data-attribute; default: `4`
 * `mobile`: support parallax effect on mobile; default: `false`
 * `mediaQuery`: Media query to match against when disabling parallax on mobile; default: `(max-width: 42em)`
-* `selectorBottom`: Selector to use to detect elements that should be scrolled to bottom; default `[data-parallax-bottom]`
-* `selectorTop`: Selector to use to detect elements that should be scrolled to top; default `[data-parallax-top]`
+* `selector`: Selector to use to detect elements that should be scrolled; default `[data-parallax]`
