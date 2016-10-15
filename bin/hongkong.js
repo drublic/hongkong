@@ -55,8 +55,7 @@
 	var settings = {};
 
 	// Get elements
-	var $scrollTop = void 0;
-	var $scrollBottom = void 0;
+	var $ELEMENTS = void 0;
 
 	var windowHeight = 0;
 	var scrollPosition = 0;
@@ -67,12 +66,8 @@
 	 * @return {[type]} [description]
 	 */
 	var _setupElements = function _setupElements() {
-	  for (var i = 0; i < $scrollTop.length; i++) {
-	    _setupElement($scrollTop[i]);
-	  }
-
-	  for (var _i = 0; _i < $scrollBottom.length; _i++) {
-	    _setupElement($scrollBottom[_i]);
+	  for (var i = 0; i < $ELEMENTS.length; i++) {
+	    _setupElement($ELEMENTS[i]);
 	  }
 	};
 
@@ -165,12 +160,14 @@
 	    return;
 	  }
 
-	  for (var i = 0; i < $scrollTop.length; i++) {
-	    _animateElement($scrollTop[i], 'top');
-	  }
+	  var direction = 'top';
 
-	  for (var _i2 = 0; _i2 < $scrollBottom.length; _i2++) {
-	    _animateElement($scrollBottom[_i2], 'bottom');
+	  for (var i = 0; i < $ELEMENTS.length; i++) {
+	    if ($ELEMENTS[i].dataset.parallaxBottom === '') {
+	      direction = 'bottom';
+	    }
+
+	    _animateElement($ELEMENTS[i], direction);
 	  }
 
 	  // allow further rAFs to be called
@@ -210,15 +207,15 @@
 	    factor: 4,
 	    mobile: false,
 	    mediaQuery: '(max-width: 42em)',
+	    selector: '[data-parallax]',
 	    selectorBottom: '[data-parallax-bottom]',
 	    selectorTop: '[data-parallax-top]'
 	  }, options);
 
 	  // Set elements
-	  $scrollTop = $(settings.selectorTop);
-	  $scrollBottom = $(settings.selectorBottom);
+	  $ELEMENTS = $(settings.selector);
 
-	  if ($scrollTop.length || $scrollBottom.length) {
+	  if ($ELEMENTS.length > 0) {
 	    _setupElements();
 
 	    // listen for scroll events

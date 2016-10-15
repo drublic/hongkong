@@ -7,8 +7,7 @@ let $ = window.jQuery;
 let settings = {};
 
 // Get elements
-let $scrollTop;
-let $scrollBottom;
+let $ELEMENTS;
 
 let windowHeight = 0;
 let scrollPosition = 0;
@@ -19,12 +18,8 @@ let ticking = false;
  * @return {[type]} [description]
  */
 let _setupElements = () => {
-  for (let i = 0; i < $scrollTop.length; i++) {
-    _setupElement($scrollTop[i]);
-  }
-
-  for (let i = 0; i < $scrollBottom.length; i++) {
-    _setupElement($scrollBottom[i]);
+  for (let i = 0; i < $ELEMENTS.length; i++) {
+    _setupElement($ELEMENTS[i]);
   }
 };
 
@@ -124,12 +119,14 @@ let _callback = () => {
     return;
   }
 
-  for (let i = 0; i < $scrollTop.length; i++) {
-    _animateElement($scrollTop[i], 'top');
-  }
+  let direction = 'top';
 
-  for (let i = 0; i < $scrollBottom.length; i++) {
-    _animateElement($scrollBottom[i], 'bottom');
+  for (let i = 0; i < $ELEMENTS.length; i++) {
+    if ($ELEMENTS[i].dataset.parallaxBottom === '') {
+      direction = 'bottom';
+    }
+
+    _animateElement($ELEMENTS[i], direction);
   }
 
   // allow further rAFs to be called
@@ -169,15 +166,15 @@ $.hongkong = function (options) {
     factor: 4,
     mobile: false,
     mediaQuery: '(max-width: 42em)',
+    selector: '[data-parallax]',
     selectorBottom: '[data-parallax-bottom]',
     selectorTop: '[data-parallax-top]'
   }, options);
 
   // Set elements
-  $scrollTop = $(settings.selectorTop);
-  $scrollBottom = $(settings.selectorBottom);
+  $ELEMENTS = $(settings.selector);
 
-  if ($scrollTop.length || $scrollBottom.length) {
+  if ($ELEMENTS.length > 0) {
     _setupElements();
 
     // listen for scroll events
