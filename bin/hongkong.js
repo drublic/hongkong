@@ -89,8 +89,9 @@
 
 	var _isElementInViewport = function _isElementInViewport($element) {
 	  var offsetTop = $element.offset().top;
+	  var threshold = 100;
 
-	  return scrollPosition <= offsetTop + $element.height() && windowHeight + scrollPosition >= offsetTop;
+	  return scrollPosition <= offsetTop + $element.height() + threshold && windowHeight + scrollPosition >= offsetTop - threshold;
 	};
 
 	var _getValuesFromTransform = function _getValuesFromTransform(matrix) {
@@ -98,15 +99,20 @@
 	  values = values.split(')')[0];
 	  values = values.split(',');
 
-	  var a = values[0];
-	  var b = values[1];
-	  var angle = Math.round(Math.atan2(b, a) * (180 / Math.PI));
+	  var angle = Math.atan2(values[1], values[0]);
+	  var denom = Math.pow(values[0], 2) + Math.pow(values[1], 2);
+	  var scaleX = Math.sqrt(denom);
+	  var scaleY = (values[0] * values[3] - values[2] * values[1]) / scaleX;
+	  var skewX = Math.atan2(values[0] * values[2] + values[1] * values[3], denom);
 
 	  return {
-	    rotate: angle,
-	    scale: [parseFloat(values[0], 10), parseFloat(values[3], 10)],
-	    skew: [parseFloat(values[1], 10), parseFloat(values[2], 10)],
-	    translate: [parseFloat(values[4], 10), parseFloat(values[5], 10)]
+	    rotate: angle / (Math.PI / 180),
+	    scaleX: scaleX, // scaleX factor
+	    scaleY: scaleY, // scaleY factor
+	    skewX: skewX / (Math.PI / 180), // skewX angle degrees
+	    skewY: 0, // skewY angle degrees
+	    translateX: values[4], // translation point  x
+	    translateY: values[5] // translation point  y
 	  };
 	};
 
@@ -117,7 +123,7 @@
 	    return transform;
 	  }
 
-	  transform += '\n    skew(' + element.transforms.skew[0] + ', ' + element.transforms.skew[1] + ')\n    scale(' + element.transforms.scale[0] + ', ' + element.transforms.scale[1] + ')\n    translate(' + element.transforms.translate[0] + ', ' + element.transforms.translate[1] + ')\n  ';
+	  transform += '\n    skew(' + element.transforms.skewX.toFixed(2) + 'deg, ' + element.transforms.skewY + 'deg)\n    scale(' + element.transforms.scaleX + ', ' + element.transforms.scaleY + ')\n  ';
 
 	  return transform;
 	};
@@ -126,7 +132,7 @@
 	  var $element = $(element);
 	  var rectObject = element.getBoundingClientRect();
 	  var visible = _isElementInViewport($element.parent());
-	  var offset = void 0;
+	  var offset = rectObject.top;
 	  var factor = element.factor;
 
 	  if (direction === 'bottom') {
@@ -139,7 +145,9 @@
 	    return;
 	  }
 
-	  offset = rectObject.top - element.initialOffset;
+	  if (element.dataset.removeInitialOffset === '') {
+	    offset -= element.initialOffset;
+	  }
 
 	  $element.css({
 	    transform: _getFullTransform(element, Math.floor(offset / factor))

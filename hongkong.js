@@ -40,11 +40,14 @@ let _setupElement = (element) => {
 }
 
 let _isElementInViewport = ($element) => {
-  let offsetTop = $element.offset().top;
+  let rect = $element[0].getBoundingClientRect();
+  let threshold = 100;
 
   return (
-    (scrollPosition <= offsetTop + $element.height()) &&
-    (windowHeight + scrollPosition >= offsetTop)
+    rect.bottom >= 0 - threshold &&
+    rect.right >= 0 - threshold &&
+    rect.top - threshold <= (window.innerHeight || document.documentElement.clientHeight) &&
+    rect.left - threshold <= (window.innerWidth || document.documentElement.clientWidth)
   );
 };
 
@@ -53,15 +56,20 @@ let _getValuesFromTransform = (matrix) => {
   values = values.split(')')[0];
   values = values.split(',');
 
-  let a = values[0];
-  let b = values[1];
-  let angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+  let angle = Math.atan2(values[1], values[0]);
+  let denom = Math.pow(values[0], 2) + Math.pow(values[1], 2);
+  let scaleX = Math.sqrt(denom);
+  let scaleY = (values[0] * values[3] - values[2] * values[1]) / scaleX;
+  let skewX = Math.atan2(values[0] * values[2] + values[1] * values[3], denom);
 
   return {
-    rotate: angle,
-    scale: [parseFloat(values[0], 10), parseFloat(values[3], 10)],
-    skew: [parseFloat(values[1], 10), parseFloat(values[2], 10)],
-    translate: [parseFloat(values[4], 10), parseFloat(values[5], 10)]
+    rotate: angle / (Math.PI / 180),
+    scaleX: scaleX,                  // scaleX factor
+    scaleY: scaleY,                  // scaleY factor
+    skewX: skewX / (Math.PI / 180),  // skewX angle degrees
+    skewY: 0,                        // skewY angle degrees
+    translateX: values[4],           // translation point  x
+    translateY: values[5]            // translation point  y
   };
 };
 
@@ -73,9 +81,8 @@ let _getFullTransform = (element, positionY) => {
   }
 
   transform += `
-    skew(${element.transforms.skew[0]}, ${element.transforms.skew[1]})
-    scale(${element.transforms.scale[0]}, ${element.transforms.scale[1]})
-    translate(${element.transforms.translate[0]}, ${element.transforms.translate[1]})
+    skew(${element.transforms.skewX.toFixed(2)}deg, ${element.transforms.skewY}deg)
+    scale(${element.transforms.scaleX}, ${element.transforms.scaleY})
   `;
 
   return transform;
@@ -84,8 +91,8 @@ let _getFullTransform = (element, positionY) => {
 let _animateElement = (element, direction) => {
   let $element = $(element);
   let rectObject = element.getBoundingClientRect();
-  let visible = _isElementInViewport($element.parent());
-  let offset;
+  let visible = _isElementInViewport($element);
+  let offset = rectObject.top;
   let factor = element.factor;
 
   if (direction === 'bottom') {
@@ -98,7 +105,9 @@ let _animateElement = (element, direction) => {
     return;
   }
 
-  offset = rectObject.top - element.initialOffset;
+  if (element.dataset.parallaxRemoveInitialOffset === '') {
+    offset -= element.initialOffset;
+  }
 
   $element.css({
     transform: _getFullTransform(element, Math.floor(offset / factor))
@@ -134,7 +143,7 @@ let _callback = () => {
 };
 
 let update = () => {
-  scrollPosition = Math.max($('body').scrollTop(), $('html').scrollTop());
+  scrollPosition = window.scrollY;
 
   if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
     return false;
@@ -148,7 +157,7 @@ let update = () => {
 };
 
 let _setWindowHeight = () => {
-  windowHeight = $(window).height();
+  windowHeight = window.innerHeight;
 };
 
 /**
