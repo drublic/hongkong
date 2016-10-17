@@ -78,7 +78,13 @@
 	  var currentTransform = $element.css('transform');
 
 	  element.factor = parseFloat(factor || settings.factor, 10);
-	  element.initialOffset = element.getBoundingClientRect().top;
+	  element.rect = {
+	    top: $element.offset().top,
+	    left: $element.offset().left,
+	    width: $element.width(),
+	    height: $element.height()
+	  };
+	  element.initialOffset = element.rect.top;
 
 	  if (currentTransform !== 'none') {
 	    transformValues = _getValuesFromTransform(currentTransform);
@@ -87,11 +93,14 @@
 	  element.transforms = transformValues;
 	};
 
-	var _isElementInViewport = function _isElementInViewport($element) {
-	  var offsetTop = $element.offset().top;
+	var _isElementInViewport = function _isElementInViewport($element, transformY) {
+	  var rect = Object.assign({}, $element[0].rect);
 	  var threshold = 100;
 
-	  return scrollPosition <= offsetTop + $element.height() + threshold && windowHeight + scrollPosition >= offsetTop - threshold;
+	  rect.top += transformY;
+	  rect.bottom = rect.top + rect.height;
+
+	  return rect.bottom >= scrollPosition - threshold && rect.top - scrollPosition - threshold <= window.innerHeight;
 	};
 
 	var _getValuesFromTransform = function _getValuesFromTransform(matrix) {
@@ -130,27 +139,29 @@
 
 	var _animateElement = function _animateElement(element, direction) {
 	  var $element = $(element);
-	  var rectObject = element.getBoundingClientRect();
-	  var visible = _isElementInViewport($element.parent());
-	  var offset = rectObject.top;
+	  var offset = element.rect.top - scrollPosition;
 	  var factor = element.factor;
 
 	  if (direction === 'bottom') {
 	    factor *= -1;
 	  }
 
+	  var transformY = Math.floor(offset / factor);
+	  var visible = _isElementInViewport($element, transformY);
+
 	  element.style.visibility = visible ? 'visible' : 'hidden';
 
-	  if (!visible) {
+	  if (visible === false) {
 	    return;
 	  }
 
-	  if (element.dataset.removeInitialOffset === '') {
+	  if (element.dataset.parallaxRemoveInitialOffset === '') {
 	    offset -= element.initialOffset;
+	    transformY = Math.floor(offset / factor);
 	  }
 
 	  $element.css({
-	    transform: _getFullTransform(element, Math.floor(offset / factor))
+	    transform: _getFullTransform(element, transformY)
 	  });
 	};
 
@@ -183,7 +194,7 @@
 	};
 
 	var update = function update() {
-	  scrollPosition = Math.max($('body').scrollTop(), $('html').scrollTop());
+	  scrollPosition = window.scrollY;
 
 	  if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
 	    return false;
@@ -197,7 +208,7 @@
 	};
 
 	var _setWindowHeight = function _setWindowHeight() {
-	  windowHeight = $(window).height();
+	  windowHeight = window.innerHeight;
 	};
 
 	/**

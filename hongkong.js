@@ -30,7 +30,13 @@ let _setupElement = (element) => {
   let currentTransform = $element.css('transform');
 
   element.factor = parseFloat(factor || settings.factor, 10);
-  element.initialOffset = element.getBoundingClientRect().top;
+  element.rect = {
+    top: $element.offset().top,
+    left: $element.offset().left,
+    width: $element.width(),
+    height: $element.height()
+  };
+  element.initialOffset = element.rect.top;
 
   if (currentTransform !== 'none') {
     transformValues = _getValuesFromTransform(currentTransform);
@@ -39,15 +45,16 @@ let _setupElement = (element) => {
   element.transforms = transformValues;
 }
 
-let _isElementInViewport = ($element) => {
-  let rect = $element[0].getBoundingClientRect();
+let _isElementInViewport = ($element, transformY) => {
+  let rect = Object.assign({}, $element[0].rect);
   let threshold = 100;
 
+  rect.top += transformY;
+  rect.bottom = rect.top + rect.height;
+
   return (
-    rect.bottom >= 0 - threshold &&
-    rect.right >= 0 - threshold &&
-    rect.top - threshold <= (window.innerHeight || document.documentElement.clientHeight) &&
-    rect.left - threshold <= (window.innerWidth || document.documentElement.clientWidth)
+    rect.bottom >= scrollPosition - threshold &&
+    rect.top - scrollPosition - threshold <= window.innerHeight
   );
 };
 
@@ -90,27 +97,29 @@ let _getFullTransform = (element, positionY) => {
 
 let _animateElement = (element, direction) => {
   let $element = $(element);
-  let rectObject = element.getBoundingClientRect();
-  let visible = _isElementInViewport($element);
-  let offset = rectObject.top;
+  let offset = element.rect.top - scrollPosition;
   let factor = element.factor;
 
   if (direction === 'bottom') {
     factor *= -1;
   }
 
+  let transformY = Math.floor(offset / factor);
+  let visible = _isElementInViewport($element, transformY);
+
   element.style.visibility = visible ? 'visible' : 'hidden';
 
-  if (!visible) {
+  if (visible === false) {
     return;
   }
 
   if (element.dataset.parallaxRemoveInitialOffset === '') {
     offset -= element.initialOffset;
+    transformY = Math.floor(offset / factor);
   }
 
   $element.css({
-    transform: _getFullTransform(element, Math.floor(offset / factor))
+    transform: _getFullTransform(element, transformY)
   });
 }
 
