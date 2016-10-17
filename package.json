@@ -2,7 +2,7 @@
   "name": "hongkong",
   "version": "0.4.0",
   "description": "jQuery based plugin for parallax scrolling",
-  "main": "hongkong.js",
+  "main": "bin/hongkong.js",
   "directories": {
     "test": "test"
   },
