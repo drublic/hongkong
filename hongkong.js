@@ -12,6 +12,7 @@ let $ELEMENTS;
 let windowHeight = 0;
 let scrollPosition = 0;
 let ticking = false;
+let generalOffset = 0;
 
 /**
  * Get the factor attribute for each and initial transforms
@@ -53,8 +54,8 @@ let _isElementInViewport = ($element, transformY) => {
   rect.bottom = rect.top + rect.height;
 
   return (
-    rect.bottom >= scrollPosition - threshold &&
-    rect.top - scrollPosition - threshold <= window.innerHeight
+    rect.bottom >= scrollPosition - generalOffset - threshold &&
+    rect.top - scrollPosition - generalOffset - threshold <= window.innerHeight
   );
 };
 
@@ -169,10 +170,16 @@ let _setWindowHeight = () => {
   windowHeight = window.innerHeight;
 };
 
+let _setOffset = (event, offset) => {
+  generalOffset = offset;
+};
+
 /**
  * Events
  */
-$(document).on('hongkong:refresh', _callback);
+$(document)
+  .on('hongkong:refresh', _callback)
+  .on('hongkong:offset', _setOffset);
 
 /**
  * Init as jQuery plugin
@@ -199,7 +206,5 @@ $.hongkong = function (options) {
     $(window).on('scroll', update);
   }
 
-  $(window).on('resize load', () => {
-    _setWindowHeight();
-  });
+  $(window).on('resize load', _setWindowHeight);
 };

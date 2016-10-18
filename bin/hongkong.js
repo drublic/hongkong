@@ -60,6 +60,7 @@
 	var windowHeight = 0;
 	var scrollPosition = 0;
 	var ticking = false;
+	var generalOffset = 0;
 
 	/**
 	 * Get the factor attribute for each and initial transforms
@@ -100,7 +101,7 @@
 	  rect.top += transformY;
 	  rect.bottom = rect.top + rect.height;
 
-	  return rect.bottom >= scrollPosition - threshold && rect.top - scrollPosition - threshold <= window.innerHeight;
+	  return rect.bottom >= scrollPosition - generalOffset - threshold && rect.top - scrollPosition - generalOffset - threshold <= window.innerHeight;
 	};
 
 	var _getValuesFromTransform = function _getValuesFromTransform(matrix) {
@@ -211,10 +212,14 @@
 	  windowHeight = window.innerHeight;
 	};
 
+	var _setOffset = function _setOffset(event, offset) {
+	  generalOffset = offset;
+	};
+
 	/**
 	 * Events
 	 */
-	$(document).on('hongkong:refresh', _callback);
+	$(document).on('hongkong:refresh', _callback).on('hongkong:offset', _setOffset);
 
 	/**
 	 * Init as jQuery plugin
@@ -241,9 +246,7 @@
 	    $(window).on('scroll', update);
 	  }
 
-	  $(window).on('resize load', function () {
-	    _setWindowHeight();
-	  });
+	  $(window).on('resize load', _setWindowHeight);
 	};
 
 /***/ }
