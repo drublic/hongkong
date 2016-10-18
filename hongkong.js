@@ -48,14 +48,13 @@ let _setupElement = (element) => {
 
 let _isElementInViewport = ($element, transformY) => {
   let rect = Object.assign({}, $element[0].rect);
-  let threshold = 100;
 
   rect.top += transformY;
   rect.bottom = rect.top + rect.height;
 
   return (
-    rect.bottom >= scrollPosition - generalOffset - threshold &&
-    rect.top - scrollPosition - generalOffset - threshold <= window.innerHeight
+    rect.bottom >= scrollPosition - generalOffset - settings.threshold &&
+    rect.top - scrollPosition - generalOffset - settings.threshold <= window.innerHeight
   );
 };
 
@@ -184,13 +183,14 @@ $(document)
 /**
  * Init as jQuery plugin
  */
-$.hongkong = function (options) {
+$.hongkong = (options) => {
 
   // Options
   settings = $.extend({
     factor: 4,
     mobile: false,
     mediaQuery: '(max-width: 42em)',
+    threshold: 0,
     selector: '[data-parallax]',
     selectorBottom: '[data-parallax-bottom]',
     selectorTop: '[data-parallax-top]'

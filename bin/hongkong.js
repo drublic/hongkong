@@ -96,12 +96,11 @@
 
 	var _isElementInViewport = function _isElementInViewport($element, transformY) {
 	  var rect = Object.assign({}, $element[0].rect);
-	  var threshold = 100;
 
 	  rect.top += transformY;
 	  rect.bottom = rect.top + rect.height;
 
-	  return rect.bottom >= scrollPosition - generalOffset - threshold && rect.top - scrollPosition - generalOffset - threshold <= window.innerHeight;
+	  return rect.bottom >= scrollPosition - generalOffset - settings.threshold && rect.top - scrollPosition - generalOffset - settings.threshold <= window.innerHeight;
 	};
 
 	var _getValuesFromTransform = function _getValuesFromTransform(matrix) {
@@ -231,6 +230,7 @@
 	    factor: 4,
 	    mobile: false,
 	    mediaQuery: '(max-width: 42em)',
+	    threshold: 0,
 	    selector: '[data-parallax]',
 	    selectorBottom: '[data-parallax-bottom]',
 	    selectorTop: '[data-parallax-top]'
