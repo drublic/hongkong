@@ -192,8 +192,8 @@ $.hongkong = (options) => {
     mediaQuery: '(max-width: 42em)',
     threshold: 0,
     selector: '[data-parallax]',
-    selectorBottom: '[data-parallax-bottom]',
-    selectorTop: '[data-parallax-top]'
+    selectorBottom: '[data-parallax-bottom]', // Deprecated
+    selectorTop: '[data-parallax-top]' // Deprecated
   }, options);
 
   // Set elements

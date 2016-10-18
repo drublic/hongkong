@@ -36,6 +36,7 @@ You can pass options to HongKong to customize it a bit:
 * `mobile`: support parallax effect on mobile; default: `false`
 * `mediaQuery`: Media query to match against when disabling parallax on mobile; default: `(max-width: 42em)`
 * `selector`: Selector to use to detect elements that should be scrolled; default `[data-parallax]`
+* `threshold`: Set threshold for showing and hiding elements; default `0`
 
 ### Data attributes
 * data-parallax-top
