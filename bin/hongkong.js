@@ -162,7 +162,7 @@
 	    return transform;
 	  }
 
-	  transform += '\n    skew(' + element.transforms.skewX.toFixed(2) + 'deg, ' + element.transforms.skewY + 'deg)\n    scale(' + element.transforms.scaleX + ', ' + element.transforms.scaleY + ')\n  ';
+	  transform += '\n    skew(' + transforms.skewX.toFixed(2) + 'deg, ' + transforms.skewY + 'deg)\n    scale(' + transforms.scaleX + ', ' + transforms.scaleY + ')\n  ';
 
 	  return transform;
 	};

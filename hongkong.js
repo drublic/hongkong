@@ -118,8 +118,8 @@ let _getFullTransform = (transforms, positionY) => {
   }
 
   transform += `
-    skew(${element.transforms.skewX.toFixed(2)}deg, ${element.transforms.skewY}deg)
-    scale(${element.transforms.scaleX}, ${element.transforms.scaleY})
+    skew(${transforms.skewX.toFixed(2)}deg, ${transforms.skewY}deg)
+    scale(${transforms.scaleX}, ${transforms.scaleY})
   `;
 
   return transform;
