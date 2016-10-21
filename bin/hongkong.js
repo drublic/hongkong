@@ -51,12 +51,20 @@
 	 */
 	var $ = window.jQuery;
 
-	// Setting for the plugin
+	/**
+	 * Settings for the plugin
+	 * @type {Object}
+	 */
 	var settings = {};
 
-	// Get elements
+	/**
+	 * All elements
+	 */
 	var $ELEMENTS = void 0;
 
+	/**
+	 * General variables
+	 */
 	var windowHeight = 0;
 	var scrollPosition = 0;
 	var ticking = false;
@@ -64,7 +72,7 @@
 
 	/**
 	 * Get the factor attribute for each and initial transforms
-	 * @return {[type]} [description]
+	 * @return {void}
 	 */
 	var _setupElements = function _setupElements() {
 	  for (var i = 0; i < $ELEMENTS.length; i++) {
@@ -72,6 +80,11 @@
 	  }
 	};
 
+	/**
+	 * Setup each element
+	 * @param  {Node} element Element which should be used
+	 * @return {void}
+	 */
 	var _setupElement = function _setupElement(element) {
 	  var $element = $(element);
 	  var factor = element.getAttribute('data-parallax-factor');
@@ -94,6 +107,12 @@
 	  element.transforms = transformValues;
 	};
 
+	/**
+	 * Check if an element is in the viewport
+	 * @param  {Object}  $element   Node-like jQuery element to check if in viewport
+	 * @param  {Number}  transformY Add this offset
+	 * @return {Boolean}            true if element is in the viewport
+	 */
 	var _isElementInViewport = function _isElementInViewport($element, transformY) {
 	  var rect = Object.assign({}, $element[0].rect);
 
@@ -103,6 +122,11 @@
 	  return rect.bottom >= scrollPosition - generalOffset - settings.threshold && rect.top - scrollPosition - generalOffset - settings.threshold <= window.innerHeight;
 	};
 
+	/**
+	 * Get the current css transform of a matrix
+	 * @param  {Array}  matrix Current matrix of CSS transforms
+	 * @return {Object}        transforms in CSS speak
+	 */
 	var _getValuesFromTransform = function _getValuesFromTransform(matrix) {
 	  var values = matrix.split('(')[1];
 	  values = values.split(')')[0];
@@ -125,10 +149,16 @@
 	  };
 	};
 
-	var _getFullTransform = function _getFullTransform(element, positionY) {
+	/**
+	 * Get the string which should be applied to the element's transform
+	 * @param  {Object} transforms Transforms which should be added
+	 * @param  {Number} positionY  Add this offset
+	 * @return {String}            Transform string for element
+	 */
+	var _getFullTransform = function _getFullTransform(transforms, positionY) {
 	  var transform = 'translateY(' + positionY + 'px) translateZ(0) ';
 
-	  if (!element.transforms) {
+	  if (!transforms) {
 	    return transform;
 	  }
 
@@ -137,6 +167,12 @@
 	  return transform;
 	};
 
+	/**
+	 * Animate the element to top or bottom
+	 * @param  {Node}   element   Node which should be animated
+	 * @param  {String} direction Top or bottom animation
+	 * @return {void}
+	 */
 	var _animateElement = function _animateElement(element, direction) {
 	  var $element = $(element);
 	  var offset = element.rect.top - scrollPosition;
@@ -161,7 +197,7 @@
 	  }
 
 	  $element.css({
-	    transform: _getFullTransform(element, transformY)
+	    transform: _getFullTransform(element.transforms, transformY)
 	  });
 	};
 
@@ -193,6 +229,10 @@
 	  ticking = false;
 	};
 
+	/**
+	 * Update elements based on scroll, fires rAF
+	 * @return {void}
+	 */
 	var update = function update() {
 	  scrollPosition = window.scrollY;
 
@@ -207,10 +247,20 @@
 	  }
 	};
 
+	/**
+	 * Get the current window height and set it to the main property of the module
+	 * @return {void}
+	 */
 	var _setWindowHeight = function _setWindowHeight() {
 	  windowHeight = window.innerHeight;
 	};
 
+	/**
+	 * Set the general offset of the page
+	 * @param  {Object} event  Event fired
+	 * @param  {Number} offset Offset to set
+	 * @return {void}
+	 */
 	var _setOffset = function _setOffset(event, offset) {
 	  generalOffset = offset;
 	};
