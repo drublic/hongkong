@@ -230,6 +230,11 @@ $(document)
   .on('hongkong:refresh', _callback)
   .on('hongkong:offset', _setOffset);
 
+let initialize = () => {
+  if ($ELEMENTS.length > 0) {
+    _setupElements();
+  }
+}
 /**
  * Init as jQuery plugin
  */
@@ -249,12 +254,16 @@ $.hongkong = (options) => {
   // Set elements
   $ELEMENTS = $(settings.selector);
 
+
   if ($ELEMENTS.length > 0) {
-    _setupElements();
+    initialize();
 
     // listen for scroll events
     $(window).on('scroll', update);
   }
 
-  $(window).on('resize load', _setWindowHeight);
+  $(window).on('resize load', () => {
+    _setWindowHeight();
+    initialize();
+  });
 };
