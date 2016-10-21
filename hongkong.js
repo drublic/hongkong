@@ -136,6 +136,10 @@ let _animateElement = (element, direction) => {
   let offset = element.rect.top - scrollPosition;
   let factor = element.factor;
 
+  if (element.dataset.parallaxRemoveGeneralOffset === '') {
+    offset -= generalOffset;
+  }
+
   if (direction === 'bottom') {
     factor *= -1;
   }
@@ -151,7 +155,6 @@ let _animateElement = (element, direction) => {
 
   if (element.dataset.parallaxRemoveInitialOffset === '') {
     offset -= element.initialOffset;
-    transformY = Math.floor(offset / factor);
   }
 
   $element.css({

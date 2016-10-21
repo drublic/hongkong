@@ -178,6 +178,10 @@
 	  var offset = element.rect.top - scrollPosition;
 	  var factor = element.factor;
 
+	  if (element.dataset.parallaxRemoveGeneralOffset === '') {
+	    offset -= generalOffset;
+	  }
+
 	  if (direction === 'bottom') {
 	    factor *= -1;
 	  }
@@ -193,7 +197,6 @@
 
 	  if (element.dataset.parallaxRemoveInitialOffset === '') {
 	    offset -= element.initialOffset;
-	    transformY = Math.floor(offset / factor);
 	  }
 
 	  $element.css({

@@ -43,6 +43,7 @@ You can pass options to HongKong to customize it a bit:
 * data-parallax-bottom
 * data-parallax-factor
 * data-parallax-remove-initial-offset
+* data-parallax-remove-general-offset
 
 ## Development
 
