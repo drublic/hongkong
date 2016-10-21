@@ -137,7 +137,7 @@ let _animateElement = (element, direction) => {
   let factor = element.factor;
 
   if (element.dataset.parallaxRemoveGeneralOffset === '') {
-    offset -= generalOffset;
+    offset += generalOffset;
   }
 
   if (direction === 'bottom') {
