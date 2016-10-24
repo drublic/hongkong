@@ -119,7 +119,7 @@
 	  rect.top += transformY;
 	  rect.bottom = rect.top + rect.height;
 
-	  return rect.bottom >= scrollPosition - generalOffset - settings.threshold && rect.top - scrollPosition - generalOffset - settings.threshold <= window.innerHeight;
+	  return rect.bottom + generalOffset >= scrollPosition - settings.threshold && rect.top - scrollPosition - settings.threshold <= window.innerHeight + generalOffset;
 	};
 
 	/**

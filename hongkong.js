@@ -72,8 +72,8 @@ let _isElementInViewport = ($element, transformY) => {
   rect.bottom = rect.top + rect.height;
 
   return (
-    rect.bottom >= scrollPosition - generalOffset - settings.threshold &&
-    rect.top - scrollPosition - generalOffset - settings.threshold <= window.innerHeight
+    rect.bottom + generalOffset >= scrollPosition - settings.threshold &&
+    rect.top - scrollPosition - settings.threshold <= window.innerHeight + generalOffset
   );
 };
 
