@@ -113,10 +113,13 @@
 	 * @param  {Number}  transformY Add this offset
 	 * @return {Boolean}            true if element is in the viewport
 	 */
-	var _isElementInViewport = function _isElementInViewport($element, transformY) {
-	  var rect = Object.assign({}, $element[0].rect);
+	var _isElementInViewport = function _isElementInViewport($element) {
+	  var transformY = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 0;
+
+	  var rect = $.extend({}, $element[0].rect);
 
 	  rect.top += transformY;
+
 	  rect.bottom = rect.top + rect.height;
 
 	  return rect.bottom + generalOffset >= scrollPosition - settings.threshold && rect.top - scrollPosition - settings.threshold <= window.innerHeight + generalOffset;
@@ -162,7 +165,13 @@
 	    return transform;
 	  }
 
-	  transform += '\n    skew(' + transforms.skewX.toFixed(2) + 'deg, ' + transforms.skewY + 'deg)\n    scale(' + transforms.scaleX + ', ' + transforms.scaleY + ')\n  ';
+	  if (transforms.skewX || transforms.skewY) {
+	    transform += 'skew(' + transforms.skewX.toFixed(2) + 'deg, ' + transforms.skewY + 'deg)';
+	  }
+
+	  if (transforms.scaleX || transforms.scaleY) {
+	    transform += 'scale(' + transforms.scaleX + ', ' + transforms.scaleY + ')';
+	  }
 
 	  return transform;
 	};
@@ -178,7 +187,7 @@
 	  var offset = element.rect.top - scrollPosition;
 	  var factor = element.factor;
 
-	  if (element.dataset.parallaxRemoveGeneralOffset === '') {
+	  if ($element.data('parallax-remove-general-offset') === '') {
 	    offset += generalOffset;
 	  }
 
@@ -195,7 +204,7 @@
 	    return;
 	  }
 
-	  if (element.dataset.parallaxRemoveInitialOffset === '') {
+	  if ($element.data('parallax-remove-initial-offset') === '') {
 	    offset -= element.initialOffset;
 	  }
 
@@ -221,7 +230,7 @@
 	  var direction = 'top';
 
 	  for (var i = 0; i < $ELEMENTS.length; i++) {
-	    if ($ELEMENTS[i].dataset.parallaxBottom === '') {
+	    if ($($ELEMENTS[i]).data('parallax-bottom') === '') {
 	      direction = 'bottom';
 	    }
 
@@ -237,7 +246,7 @@
 	 * @return {void}
 	 */
 	var update = function update() {
-	  scrollPosition = window.scrollY;
+	  scrollPosition = window.pageYOffset;
 
 	  if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
 	    return false;

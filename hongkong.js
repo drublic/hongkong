@@ -65,10 +65,11 @@ let _setupElement = (element) => {
  * @param  {Number}  transformY Add this offset
  * @return {Boolean}            true if element is in the viewport
  */
-let _isElementInViewport = ($element, transformY) => {
+let _isElementInViewport = ($element, transformY = 0) => {
   let rect = $.extend({}, $element[0].rect);
 
   rect.top += transformY;
+
   rect.bottom = rect.top + rect.height;
 
   return (
@@ -117,10 +118,13 @@ let _getFullTransform = (transforms, positionY) => {
     return transform;
   }
 
-  transform += `
-    skew(${transforms.skewX.toFixed(2)}deg, ${transforms.skewY}deg)
-    scale(${transforms.scaleX}, ${transforms.scaleY})
-  `;
+  if (transforms.skewX || transforms.skewY) {
+    transform += `skew(${transforms.skewX.toFixed(2)}deg, ${transforms.skewY}deg)`;
+  }
+
+  if (transforms.scaleX || transforms.scaleY) {
+    transform += `scale(${transforms.scaleX}, ${transforms.scaleY})`;
+  }
 
   return transform;
 };
@@ -136,7 +140,7 @@ let _animateElement = (element, direction) => {
   let offset = element.rect.top - scrollPosition;
   let factor = element.factor;
 
-  if (element.dataset.parallaxRemoveGeneralOffset === '') {
+  if ($element.data('parallax-remove-general-offset') === '') {
     offset += generalOffset;
   }
 
@@ -153,7 +157,7 @@ let _animateElement = (element, direction) => {
     return;
   }
 
-  if (element.dataset.parallaxRemoveInitialOffset === '') {
+  if ($element.data('parallax-remove-initial-offset') === '') {
     offset -= element.initialOffset;
   }
 
@@ -179,7 +183,7 @@ let _callback = () => {
   let direction = 'top';
 
   for (let i = 0; i < $ELEMENTS.length; i++) {
-    if ($ELEMENTS[i].dataset.parallaxBottom === '') {
+    if ($($ELEMENTS[i]).data('parallax-bottom') === '') {
       direction = 'bottom';
     }
 
@@ -195,7 +199,7 @@ let _callback = () => {
  * @return {void}
  */
 let update = () => {
-  scrollPosition = window.scrollY;
+  scrollPosition = window.pageYOffset;
 
   if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
     return false;
