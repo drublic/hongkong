@@ -66,7 +66,7 @@ let _setupElement = (element) => {
  * @return {Boolean}            true if element is in the viewport
  */
 let _isElementInViewport = ($element, transformY) => {
-  let rect = Object.assign({}, $element[0].rect);
+  let rect = $.extend({}, $element[0].rect);
 
   rect.top += transformY;
   rect.bottom = rect.top + rect.height;
