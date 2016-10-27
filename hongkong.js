@@ -199,7 +199,7 @@ let _callback = () => {
  * @return {void}
  */
 let update = () => {
-  scrollPosition = window.pageYOffset;
+  scrollPosition = $(window).scrollTop();
 
   if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
     return false;
