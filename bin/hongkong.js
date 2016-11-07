@@ -119,7 +119,6 @@
 	  var rect = $.extend({}, $element[0].rect);
 
 	  rect.top += transformY;
-
 	  rect.bottom = rect.top + rect.height;
 
 	  return rect.bottom + generalOffset >= scrollPosition - settings.threshold && rect.top - scrollPosition - settings.threshold <= window.innerHeight + generalOffset;
@@ -198,8 +197,6 @@
 	  var transformY = Math.floor(offset / factor);
 	  var visible = _isElementInViewport($element, transformY);
 
-	  element.style.visibility = visible ? 'visible' : 'hidden';
-
 	  if (visible === false) {
 	    return;
 	  }
@@ -246,7 +243,7 @@
 	 * @return {void}
 	 */
 	var update = function update() {
-	  scrollPosition = $(window).scrollTop();
+	  scrollPosition = window.scrollY || window.pageYOffset;
 
 	  if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
 	    return false;

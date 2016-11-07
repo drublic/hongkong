@@ -69,7 +69,6 @@ let _isElementInViewport = ($element, transformY = 0) => {
   let rect = $.extend({}, $element[0].rect);
 
   rect.top += transformY;
-
   rect.bottom = rect.top + rect.height;
 
   return (
@@ -151,8 +150,6 @@ let _animateElement = (element, direction) => {
   let transformY = Math.floor(offset / factor);
   let visible = _isElementInViewport($element, transformY);
 
-  element.style.visibility = visible ? 'visible' : 'hidden';
-
   if (visible === false) {
     return;
   }
@@ -199,7 +196,7 @@ let _callback = () => {
  * @return {void}
  */
 let update = () => {
-  scrollPosition = $(window).scrollTop();
+  scrollPosition = window.scrollY || window.pageYOffset;
 
   if (!settings.mobile && window.matchMedia && window.matchMedia(settings.mediaQuery).matches) {
     return false;
