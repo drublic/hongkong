@@ -17,7 +17,6 @@ let $ELEMENTS;
 /**
  * General variables
  */
-let windowHeight = 0;
 let scrollPosition = 0;
 let ticking = false;
 let generalOffset = 0;
@@ -57,7 +56,7 @@ let _setupElement = (element) => {
   }
 
   element.transforms = transformValues;
-}
+};
 
 /**
  * Check if an element is in the viewport
@@ -161,7 +160,7 @@ let _animateElement = (element, direction) => {
   $element.css({
     transform: _getFullTransform(element.transforms, transformY)
   });
-}
+};
 
 /**
  * Callback for rAF
@@ -210,14 +209,6 @@ let update = () => {
 };
 
 /**
- * Get the current window height and set it to the main property of the module
- * @return {void}
- */
-let _setWindowHeight = () => {
-  windowHeight = window.innerHeight;
-};
-
-/**
  * Set the general offset of the page
  * @param  {Object} event  Event fired
  * @param  {Number} offset Offset to set
@@ -238,7 +229,8 @@ let initialize = () => {
   if ($ELEMENTS.length > 0) {
     _setupElements();
   }
-}
+};
+
 /**
  * Init as jQuery plugin
  */
@@ -267,7 +259,6 @@ $.hongkong = (options) => {
   }
 
   $(window).on('resize load', () => {
-    _setWindowHeight();
     initialize();
   });
 };

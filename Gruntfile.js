@@ -9,8 +9,7 @@
 module.exports = function (grunt) {
 
   // Project configuration.
-  grunt.initConfig({
-  });
+  grunt.initConfig({});
 
   // Load project configuration
   grunt.initConfig({
@@ -20,7 +19,7 @@ module.exports = function (grunt) {
         'test/**/*.js'
       ],
       options: {
-          jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc'
       }
     },
     jasmine: {

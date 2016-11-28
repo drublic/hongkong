@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "grunt test",
+    "lint": "eslint {,test/}*.js",
     "watch": "webpack --watch",
     "uglify": "uglifyjs --compress --mangle --output bin/hongkong.min.js -- bin/hongkong.js",
     "build": "webpack && npm run uglify",
@@ -41,6 +42,7 @@
     "webpack": "^1.13.2"
   },
   "dependencies": {
+    "eslint": "^3.11.0",
     "jquery": "^3.1.1",
     "normalize.css": "^5.0.0",
     "uglifyjs": "^2.4.10"
