@@ -65,7 +65,6 @@
 	/**
 	 * General variables
 	 */
-	var windowHeight = 0;
 	var scrollPosition = 0;
 	var ticking = false;
 	var generalOffset = 0;
@@ -249,19 +248,11 @@
 	    return false;
 	  }
 
-	  if (!ticking) {
+	  if (!ticking && window.requestAnimationFrame) {
 	    window.requestAnimationFrame(_callback);
 
 	    ticking = true;
 	  }
-	};
-
-	/**
-	 * Get the current window height and set it to the main property of the module
-	 * @return {void}
-	 */
-	var _setWindowHeight = function _setWindowHeight() {
-	  windowHeight = window.innerHeight;
 	};
 
 	/**
@@ -284,6 +275,7 @@
 	    _setupElements();
 	  }
 	};
+
 	/**
 	 * Init as jQuery plugin
 	 */
@@ -310,10 +302,7 @@
 	    $(window).on('scroll', update);
 	  }
 
-	  $(window).on('resize load', function () {
-	    _setWindowHeight();
-	    initialize();
-	  });
+	  $(window).on('resize load', initialize);
 	};
 
 /***/ }

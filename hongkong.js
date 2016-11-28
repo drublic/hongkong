@@ -201,7 +201,7 @@ let update = () => {
     return false;
   }
 
-  if (!ticking) {
+  if (!ticking && window.requestAnimationFrame) {
     window.requestAnimationFrame(_callback);
 
     ticking = true;
@@ -258,7 +258,5 @@ $.hongkong = (options) => {
     $(window).on('scroll', update);
   }
 
-  $(window).on('resize load', () => {
-    initialize();
-  });
+  $(window).on('resize load', initialize);
 };
