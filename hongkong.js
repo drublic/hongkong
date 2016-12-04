@@ -218,17 +218,17 @@ let _setOffset = (event, offset) => {
   generalOffset = offset;
 };
 
-/**
- * Events
- */
-$(document)
-  .on('hongkong:refresh', _callback)
-  .on('hongkong:offset', _setOffset);
-
 let initialize = () => {
   if ($ELEMENTS.length > 0) {
     _setupElements();
   }
+
+  /**
+   * Events
+   */
+  $(document)
+    .on('hongkong:refresh', _callback)
+    .on('hongkong:offset', _setOffset);
 };
 
 /**
