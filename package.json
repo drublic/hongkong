@@ -2,7 +2,7 @@
   "name": "hongkong",
   "version": "1.0.1",
   "description": "jQuery based plugin for parallax scrolling",
-  "main": "bin/hongkong.js",
+  "main": "hongkong.js",
   "directories": {
     "test": "test"
   },
@@ -12,6 +12,7 @@
     "watch": "webpack --watch",
     "uglify": "uglifyjs --compress --mangle --output bin/hongkong.min.js -- bin/hongkong.js",
     "build": "webpack && npm run uglify",
+    "build-test": "webpack --config webpack-test.config.js",
     "lite": "lite-server",
     "start": "concurrently \"npm run watch\" \"npm run lite\""
   },
