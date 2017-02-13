@@ -1,4 +1,4 @@
-# jQuery based plugin for parallax scrolling
+# Hongkong - jQuery based plugin for parallax scrolling
 
 [![Build Status](https://secure.travis-ci.org/use-init/init.svg?branch=master)](http://travis-ci.org/drublic/hongkong)
 [![Dependency Status](https://david-dm.org/drublic/hongkong.svg)](https://david-dm.org/drublic/hongkong)
@@ -28,9 +28,20 @@ Then call
 
 somewhere within your JavaScript.
 
+
+### [ES6 | ES2015 | ES2016 | ES2017] modules
+
+With ES6 you can use Hongkong as follows:
+
+    import $ from 'jquery';
+    import hongkong from 'hongkong';
+
+    hongkong($);
+    $.hongkong();
+
 ## Options
 
-You can pass options to HongKong to customize it a bit:
+You can pass options to Hongkong to customize it a bit:
 
 * `factor`: default factor to use for momentum if no other is set via a data-attribute; default: `4`
 * `mobile`: support parallax effect on mobile; default: `false`

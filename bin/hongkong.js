@@ -49,7 +49,6 @@
 	/**
 	 * Parallax scrolling
 	 */
-	var $ = window.jQuery;
 
 	/**
 	 * Settings for the plugin
@@ -269,41 +268,51 @@
 	  if ($ELEMENTS.length > 0) {
 	    _setupElements();
 	  }
-
-	  /**
-	   * Events
-	   */
-	  $(document).on('hongkong:refresh', _callback).on('hongkong:offset', _setOffset);
 	};
 
 	/**
 	 * Init as jQuery plugin
 	 */
-	$.hongkong = function (options) {
+	var constructor = function constructor() {
+	  var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.jQuery;
 
-	  // Options
-	  settings = $.extend({
-	    factor: 4,
-	    mobile: false,
-	    mediaQuery: '(max-width: 42em)',
-	    threshold: 0,
-	    selector: '[data-parallax]',
-	    selectorBottom: '[data-parallax-bottom]', // Deprecated
-	    selectorTop: '[data-parallax-top]' // Deprecated
-	  }, options);
+	  /**
+	   * Events
+	   */
+	  $(document).on('hongkong:refresh', _callback).on('hongkong:offset', _setOffset);
 
-	  // Set elements
-	  $ELEMENTS = $(settings.selector);
+	  $.hongkong = function (options) {
 
-	  if ($ELEMENTS.length > 0) {
-	    initialize();
+	    // Options
+	    settings = $.extend({
+	      factor: 4,
+	      mobile: false,
+	      mediaQuery: '(max-width: 42em)',
+	      threshold: 0,
+	      selector: '[data-parallax]',
+	      selectorBottom: '[data-parallax-bottom]', // Deprecated
+	      selectorTop: '[data-parallax-top]' // Deprecated
+	    }, options);
 
-	    // listen for scroll events
-	    $(window).on('scroll', update);
-	  }
+	    // Set elements
+	    $ELEMENTS = $(settings.selector);
 
-	  $(window).on('resize load', initialize);
+	    if ($ELEMENTS.length > 0) {
+	      initialize();
+
+	      // listen for scroll events
+	      $(window).on('scroll', update);
+	    }
+
+	    $(window).on('resize load', initialize);
+	  };
 	};
+
+	if (module.exports) {
+	  module.exports = constructor;
+	} else {
+	  constructor(window.jQuery);
+	}
 
 /***/ }
 /******/ ]);
