@@ -1,6 +1,7 @@
 /**
  * Parallax scrolling
  */
+let $ = {};
 
 /**
  * Settings for the plugin
@@ -226,7 +227,9 @@ let initialize = () => {
 /**
  * Init as jQuery plugin
  */
-const constructor = ($ = window.jQuery) => {
+const constructor = (jQuery) => {
+  $ = jQuery;
+
   /**
    * Events
    */
@@ -263,8 +266,10 @@ const constructor = ($ = window.jQuery) => {
   };
 };
 
-if (module.exports) {
+if (window.jQuery || window.$) {
+  constructor(window.jQuery);
+} else if (module.exports) {
   module.exports = constructor;
 } else {
-  constructor(window.jQuery);
+  throw Error('Hongkong: Please make jQuery available globally.');
 }

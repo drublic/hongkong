@@ -49,6 +49,7 @@
 	/**
 	 * Parallax scrolling
 	 */
+	var $ = {};
 
 	/**
 	 * Settings for the plugin
@@ -273,8 +274,8 @@
 	/**
 	 * Init as jQuery plugin
 	 */
-	var constructor = function constructor() {
-	  var $ = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : window.jQuery;
+	var constructor = function constructor(jQuery) {
+	  $ = jQuery;
 
 	  /**
 	   * Events
@@ -308,10 +309,12 @@
 	  };
 	};
 
-	if (module.exports) {
+	if (window.jQuery || window.$) {
+	  constructor(window.jQuery);
+	} else if (module.exports) {
 	  module.exports = constructor;
 	} else {
-	  constructor(window.jQuery);
+	  throw Error('Hongkong: Please make jQuery available globally.');
 	}
 
 /***/ }
