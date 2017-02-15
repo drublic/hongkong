@@ -153,11 +153,12 @@
 	/**
 	 * Get the string which should be applied to the element's transform
 	 * @param  {Object} transforms Transforms which should be added
-	 * @param  {Number} positionY  Add this offset
+	 * @param  {String} positionX  Add this offset horizontally
+	 * @param  {Number} positionY  Add this offset vertically
 	 * @return {String}            Transform string for element
 	 */
-	var _getFullTransform = function _getFullTransform(transforms, positionY) {
-	  var transform = 'translateY(' + positionY + 'px) translateZ(0) ';
+	var _getFullTransform = function _getFullTransform(transforms, positionX, positionY) {
+	  var transform = 'translate3d(' + positionX + ', ' + positionY + 'px, 0) ';
 
 	  if (!transforms) {
 	    return transform;
@@ -194,6 +195,7 @@
 	  }
 
 	  var transformY = Math.floor(offset / factor);
+	  var transformX = 0;
 	  var visible = _isElementInViewport($element, transformY);
 
 	  if (visible === false) {
@@ -204,8 +206,12 @@
 	    offset -= element.initialOffset;
 	  }
 
+	  if ($element.data('parallax-position-x')) {
+	    transformX = $element.data('parallax-position-x');
+	  }
+
 	  $element.css({
-	    transform: _getFullTransform(element.transforms, transformY)
+	    transform: _getFullTransform(element.transforms, transformX, transformY)
 	  });
 	};
 

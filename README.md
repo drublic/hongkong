@@ -52,6 +52,7 @@ You can pass options to Hongkong to customize it a bit:
 ### Data attributes
 * data-parallax-top
 * data-parallax-bottom
+* data-parallax-position-x
 * data-parallax-factor
 * data-parallax-remove-initial-offset
 * data-parallax-remove-general-offset

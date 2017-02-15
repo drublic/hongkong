@@ -106,11 +106,12 @@ let _getValuesFromTransform = (matrix) => {
 /**
  * Get the string which should be applied to the element's transform
  * @param  {Object} transforms Transforms which should be added
- * @param  {Number} positionY  Add this offset
+ * @param  {String} positionX  Add this offset horizontally
+ * @param  {Number} positionY  Add this offset vertically
  * @return {String}            Transform string for element
  */
-let _getFullTransform = (transforms, positionY) => {
-  let transform = `translateY(${positionY}px) translateZ(0) `;
+let _getFullTransform = (transforms, positionX, positionY) => {
+  let transform = `translate3d(${positionX}, ${positionY}px, 0) `;
 
   if (!transforms) {
     return transform;
@@ -147,6 +148,7 @@ let _animateElement = (element, direction) => {
   }
 
   let transformY = Math.floor(offset / factor);
+  let transformX = 0;
   let visible = _isElementInViewport($element, transformY);
 
   if (visible === false) {
@@ -157,8 +159,12 @@ let _animateElement = (element, direction) => {
     offset -= element.initialOffset;
   }
 
+  if ($element.data('parallax-position-x')) {
+    transformX = $element.data('parallax-position-x');
+  }
+
   $element.css({
-    transform: _getFullTransform(element.transforms, transformY)
+    transform: _getFullTransform(element.transforms, transformX, transformY)
   });
 };
 
