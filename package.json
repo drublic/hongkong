@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "hongkong": "^1.2.0",
+    "jquery": "^3.1.1",
+    "normalize.css": "^5.0.0"
+  }
+}
