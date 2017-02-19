@@ -4,24 +4,31 @@
         <meta charset="utf-8">
         <title>Parallax Scrolling Plugin</title>
         <link rel="stylesheet" href="node_modules/normalize.css/normalize.css">
+        <link rel="stylesheet" href="node_modules/hongkong/hongkong.css">
         <link rel="stylesheet" href="test.css">
+
         <meta name="viewport" content="width=device-width, initial-scale=1" />
     </head>
     <body>
 
         <div class="hero unit">
-            <div class="unit__inner" data-parallax-top data-parallax-factor="3">
+            <div class="unit__inner"
+                    data-parallax
+                    data-parallax-factor="3">
                 <h1>Hong Kong</h1>
                 <p>Pictures by <a href="http://cfremdt.de/">Christoph Fremdt</a></p>
             </div>
 
-            <div class="background" data-parallax-top>
+            <div class="background"
+                    data-parallax>
                 <img src="img/hongkong-1.jpg">
             </div>
         </div>
 
         <div class="info unit">
-            <div class="unit__inner" data-parallax-top data-parallax-factor="2">
+            <div class="unit__inner"
+                    data-parallax
+                    data-parallax-factor="2">
                 <h2>Info</h2>
 
                 <p><strong>Area</strong> 1,104 km<sup>2</sup> (Water 4.58%)</p>
@@ -36,8 +43,10 @@
             </div>
         </div>
 
-        <script src="bower_components/jquery/dist/jquery.js"></script>
-        <script src="bower_components/raf.js/raf.js"></script>
-        <script src="hongkong.js"></script>
+        <script src="node_modules/jquery/dist/jquery.js"></script>
+        <script src="node_modules/hongkong/bin/hongkong.js"></script>
+        <script>
+            $.hongkong();
+        </script>
     </body>
 </html>
