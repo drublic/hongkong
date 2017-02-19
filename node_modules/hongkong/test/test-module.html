@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Parallax Scrolling Plugin</title>
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
+        <link rel="stylesheet" href="../hongkong.css">
+        <link rel="stylesheet" href="test.css">
+
+        <link href="http://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+    </head>
+    <body>
+
+        <div class="hero unit">
+            <div class="unit__inner" data-parallax data-parallax-bottom data-parallax-factor="3">
+                <h1>Hong Kong</h1>
+                <p>Pictures by <a href="http://cfremdt.de/">Christoph Fremdt</a></p>
+            </div>
+
+            <div class="background" data-parallax data-parallax-top>
+                <img src="img/hongkong-1.jpg">
+            </div>
+        </div>
+
+        <div class="hero unit">
+            <div class="background" data-parallax data-parallax-top>
+                <img src="img/hongkong-1.jpg">
+            </div>
+        </div>
+
+        <script src="bin/test-module.build.js"></script>
+    </body>
+</html>
