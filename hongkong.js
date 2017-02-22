@@ -240,6 +240,7 @@ const constructor = (jQuery) => {
    * Events
    */
   $(document)
+    .on('hongkong:reinit', initialize)
     .on('hongkong:refresh', _callback)
     .on('hongkong:offset', _setOffset);
 
