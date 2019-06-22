@@ -10,9 +10,8 @@
     "test": "grunt test",
     "lint": "eslint {,test/}*.js",
     "watch": "webpack --watch",
-    "uglify": "uglifyjs --compress --mangle --output bin/hongkong.min.js -- bin/hongkong.js",
-    "build": "webpack && npm run uglify",
-    "build-test": "webpack --config webpack-test.config.js",
+    "build": "webpack",
+    "build:test": "webpack --config webpack-test.config.js",
     "lite": "lite-server",
     "start": "concurrently \"npm run watch\" \"npm run lite\""
   },
@@ -31,21 +30,22 @@
   },
   "homepage": "https://github.com/drublic/hongkong",
   "devDependencies": {
-    "babel-cli": "^6.16.0",
-    "babel-core": "^6.17.0",
-    "babel-loader": "^6.2.5",
-    "babel-preset-latest": "^6.16.0",
-    "concurrently": "^3.1.0",
-    "grunt": "1.0.1",
-    "grunt-contrib-jasmine": "1.0.3",
-    "grunt-contrib-jshint": "1.0.0",
-    "lite-server": "^2.2.2",
-    "webpack": "^1.13.2"
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "babel-cli": "^6.26.0",
+    "babel-loader": "^8.0.6",
+    "concurrently": "^4.1.0",
+    "grunt": "1.0.4",
+    "grunt-contrib-jasmine": "2.0.3",
+    "grunt-contrib-jshint": "2.1.0",
+    "lite-server": "^2.5.3",
+    "webpack": "^4.35.0",
+    "webpack-cli": "^3.3.4"
   },
   "dependencies": {
-    "eslint": "^3.11.0",
-    "jquery": "^3.1.1",
-    "normalize.css": "^5.0.0",
-    "uglifyjs": "^2.4.10"
+    "eslint": "^6.0.0",
+    "jquery": "^3.4.1",
+    "normalize.css": "^8.0.1",
+    "uglifyjs": "^2.4.11"
   }
 }

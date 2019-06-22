@@ -1,14 +1,10 @@
+const path = require('path');
+
 module.exports = {
+  mode: 'development',
   entry: './test/test-module.js',
   output: {
-    path: './test/bin/',
+    path: path.resolve('./test/bin/'),
     filename: 'test-module.build.js'
   },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader'
-    }]
-  }
 };

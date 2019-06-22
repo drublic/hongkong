@@ -1,14 +1,10 @@
+const path = require('path');
+
 module.exports = {
+  mode: 'production',
   entry: './hongkong.js',
   output: {
-    path: './bin',
-    filename: 'hongkong.js'
+    path: path.resolve('./bin'),
+    filename: 'hongkong.min.js'
   },
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader'
-    }]
-  }
 };

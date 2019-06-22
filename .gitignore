@@ -4,6 +4,5 @@
 .DS_Store
 node_modules
 .grunt/
-yarn.lock
 test/bin/
 !test/bin/.gitkeep
