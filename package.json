@@ -1,6 +1,6 @@
 {
   "name": "hongkong",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "jQuery based plugin for parallax scrolling",
   "main": "hongkong.js",
   "directories": {
